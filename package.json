@@ -1,0 +1,14 @@
+{
+    "name":"drphil",
+    "version":"0.0.0",
+    "description":"",
+    "dependencies":{
+        
+    },
+    "devDependencies":{
+        "http-server":"*"
+    },
+    "scripts":{
+        "start":"./node_modules/http-server/bin/http-server ."
+    }
+}

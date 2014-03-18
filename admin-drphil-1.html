@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Admin for drphil-1-scrolling</title>
+<style>
+    body {
+        text-align: center;
+    }
+    .container {
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px;
+        text-align: left;
+        width: 45%;
+    }
+</style>
+<script src="http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+$.ajaxSetup({
+    type: "POST",
+    data: {},
+    dataType: 'json',
+    xhrFields: {
+       withCredentials: true
+    },
+    crossDomain: true
+});
+
+function postById(collId) {
+    //https://twitter.com/jonnysinc/status/372755071580139520/
+    var $inputEl = $("#tweet-input-" + collId);
+    var tweetUrl = $inputEl.val();
+    var regEx = /https?:\/\/twitter.com\/[^\/]+\/statu[^\/]+\/([^/]+)\/?/
+    var tweetId = regEx.exec(tweetUrl);
+    // Dr.Phil
+    var lftoken = "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJkb21haW4iOiAiZHJwaGlsLmZ5cmUuY28iLCAiZXhwaXJlcyI6IDE0MTA5MTI4NzYuMjIyMDcxLCAidXNlcl9pZCI6ICJfXzk5OTk5OTlfXyJ9.4g6AMeIcVIEIIifRG7yazNns5xHSEdCUfj4rVR6Z8F8";
+    //demofyre
+    //var lftoken = "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJkb21haW4iOiAibGl2ZWZ5cmUuY29tIiwgImV4cGlyZXMiOiAxMzgyNzI5ODc1Ljk1MDc2MSwgInVzZXJfaWQiOiAiX3VwMTcyMDYzMTQifQ.hd51fS-HQTBdJ_MbxcGOmpDs50_V03t8SDrqb2WEJl4";
+    
+    if (tweetId === null) {
+        alert("Invalid Tweet URL");
+        return false;
+    }
+    
+    var url = "http://quill.drphil.fyre.co/api/v3.0/collection/" + collId + "/post/tweet/?lftoken=" + lftoken;
+    $.ajax({
+        url: url,
+        data: {tweet_id: tweetId[1]},
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function () {
+            $inputEl.val("");
+        }
+    });
+}
+</script>
+</head>
+<body>
+    <h1>Admin for drphil-1-scrolling</h1>
+    <div class="container">
+        <h2>Media Wall 1</h2>
+        <input type="text" id="tweet-input-44278372" />
+        <button type="button" onclick="postById('44278372')">Add Tweet</button>
+        <iframe src="admin-iframe-drphil-wall-1.html?AWSAccessKeyId=AKIAJMT5HHUE4C2VVNAA&Expires=1410925381&Signature=cVGEAB4bWQHuyiAnWQ6mTkm5ZWc%3D" frameBorder="0" width="100%" height="48000px"></iframe>
+    </div>
+    <div class="container">
+        <h2>Media Wall 2</h2>
+        <input type="text" id="tweet-input-44278404" />
+        <button type="button" onclick="postById('44278404')">Add Tweet</button>
+        <iframe src="admin-iframe-drphil-wall-2.html?AWSAccessKeyId=AKIAJMT5HHUE4C2VVNAA&Expires=1410925427&Signature=HOIIdh0Ucu1%2B3Mwc5LsDqqnch6w%3D" frameBorder="0" width="100%" height="48000px"></iframe>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <div id="map">
+</div>
+<script>
+$.get("world.svg", function (svg, msg) {
+    var mapDiv = document.getElementById("map");
+    mapDiv.appendChild(svg.getElementsByTagName("svg")[0]);
+   $(mapDiv).find("g").each(function(i) {
+      if ($(this).attr("id") == "") {
+          return;
+      }
+      $(this).mouseenter(function(e) {
+          $(this).fadeOut();  
+      });
+      $(this).mouseleave(function(e) {
+          $(this).fadeIn();  
+      });
+   });
+    
+   
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" href="http://livefyre-cdn.s3.amazonaws.com/libs/sdk/v1.1.0-build.214/streamhub-sdk.gz.css" /></link>
+        <script src="http://cdn.livefyre.com/libs/sdk/v1.1.1/streamhub-sdk.min.gz.js"></script>
+        <style>
+                body {
+			background-image:url('drphil-background.jpg');
+                        /*background-image:url('https://s3.amazonaws.com/uploads.hipchat.com/24880/355039/xt2t1mu8ffls3sg/drphil-background.jpg');*/
+                        background-repeat:no-repeat;
+                        background-position: top right;
+                        background-attachment: fixed;
+                        text-align: center;
+                }
+                header {
+	                color: #FFF;
+	                font-size: 48px;
+	                font-family: Tahoma, Geneva, sans-serif;
+	                height: 200px;
+	            }
+	            header .header-container {
+	            	margin: 0px auto;
+	            	overflow-y: hidden;
+	            	padding-top: 100px;
+	            	width: 620px;
+	            }
+	            header .twitter-logo {
+	            	float: left;
+	                max-width: 100px;
+	            }
+	            header .text {
+	            	float: left;
+	            	margin-top: 15px;
+	            }
+	            header .drphil-logo {
+	            	max-width: 180px;
+	            	position: absolute;
+	            	right: 4%;
+	            	top: 75px;
+	            }
+                section {
+                    margin: 0px auto;
+                    text-align: left;
+                }
+
+                #fyre-list-1, #fyre-list-2 {
+                    float: left;
+                    width: 47%;
+                    margin-right: 15px;
+                    overflow-y: hidden;
+                }
+                .streamhub-media-wall-view {
+                    width: 1920px;
+                    margin: 125px auto 0 auto;
+                }
+
+                .content-actions, .content-meta {
+                    display: none;
+                }
+                .content .content-body {
+                        font-size: 32px;
+                        line-height: 1.2em;
+                }
+                .content .content-author-avatar img {
+                        width: 50px;
+                        height: 50px;
+                }
+                .content .content-header-inner {
+                        height: 40px;
+                }
+ 				/* Scrolling */
+                .content {
+                  -webkit-transition:all 0.5s linear;
+                  -moz-transition:all 0.5s linear;
+                  -o-transition:all 0.5s linear;
+                  transition:all 0.5s linear;
+                }
+                .content {
+                        -webkit-transform: translateY(-100%);
+                        -moz-transform: translateY(-100%);
+                        -o-transform: translateY(-100%);
+                        transform: translateY(-100%);
+                        overflow: hidden;
+                }
+                .content.added {
+                        -webkit-transform: translateY(0);
+                        -moz-transform: translateY(0);
+                        -o-transform: translateY(0);
+                        transform: translateY(0);
+                }
+        </style>
+</head>
+<body>
+<div class="container">
+	<header>
+        <div class="header-container">
+			<img class="twitter-logo" src="https://abs.twimg.com/a/1376095388/images/resources/twitter-bird-dark-bgs.png" />
+			<div class="text">Tweet Live with #DrPhil</div>
+        </div>
+		<img class="drphil-logo" src="DrPhil_logo.png" />
+		<!-- <img class="drphil-logo" src="https://s3.amazonaws.com/uploads.hipchat.com/24880/355039/uet1m2cxom03l4w/DrPhil_logo.png" /> -->
+	</header>
+	<section>
+        <div id="fyre-list-1"></div>
+        <div id="fyre-list-2"></div>
+	</section>
+</div>
+
+<script type="text/javascript">
+         (function() {
+var Hub = Livefyre.require('streamhub-sdk');
+
+function ScrollingListView (opts) {
+    Hub.Views.ListView.apply(this, arguments);
+}
+ScrollingListView.prototype = new Hub.Views.ListView();
+
+ScrollingListView.prototype.add = function () {
+        var contentView = Hub.Views.ListView.prototype.add.apply(this, arguments);
+        var height = contentView.$el.height();
+        contentView.$el.css({ height: 0 });
+        setTimeout(function () {
+                contentView.$el.addClass('added');
+                contentView.$el.css({ height: height });
+        }, 1);
+        return contentView;
+};
+
+ScrollingListView.prototype.comparator = function (a,b) {
+    return b.createdAt - a.createdAt;
+};
+
+var listView1 = new ScrollingListView({ el: document.getElementById('fyre-list-1') });
+var streamManager1 = Livefyre.require('streamhub-sdk/stream-manager').create.livefyreStreams({
+    "articleId": "custom-1375992367316",
+                "siteId": 340265,
+                "network": "drphil.fyre.co",
+                "replies": true
+});
+streamManager1.bind(listView1).start();
+
+var listView2 = new ScrollingListView({ el: document.getElementById('fyre-list-2') });
+var streamManager2 = Livefyre.require('streamhub-sdk/stream-manager').create.livefyreStreams({
+                "articleId": "custom-1375992439601",
+                "siteId": 340265,
+                "network": "drphil.fyre.co",
+                "replies": true
+});
+streamManager2.bind(listView2).start();
+    }());
+</script>
+</body>
+</html>
+        
